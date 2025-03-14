@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "task": "study react.js lorem sdfjasodufhsadfhdsauhfiasdhfakdsfyadsfguadsybfadskfjhaisdfhadsifbdsjfhadsjh",
+        "priority": "medium",
+        "duedate": "tomorrow",
+        "status": "completed"
+    },
+    {
+        "id": 2,
+        "task": "study sass",
+        "priority": "high",
+        "duedate": "today",
+        "status": "not started"
+    },
+    {
+        "id": 3,
+        "task": "study js",
+        "priority": "low",
+        "duedate": "monday",
+        "status": "completed"
+    },
+    {
+        "id": 4,
+        "task": "study Next.js",
+        "priority": "high",
+        "duedate": "today",
+        "status": "in progress"
+    },
+    {
+        "id": 5,
+        "task": "study Node.js",
+        "priority": "high",
+        "duedate": "tomorrow",
+        "status": "not started"
+    },
+    {
+        "id": 6,
+        "task": "study ML",
+        "priority": "medium",
+        "duedate": "today",
+        "status": "completed"
+    },
+    {
+        "id": 7,
+        "task": "practicing English",
+        "priority": "low",
+        "duedate": "wednesday",
+        "status": "in progress"
+    }
+]
