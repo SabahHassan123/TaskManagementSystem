@@ -1,18 +1,23 @@
 import React, { useState } from 'react'
-import tasks from '../DummyData/Tasks.json';
 import { UpperComponentTaskList } from '../Components/UpperComponentTaskList';
 import { AddTaskModal } from '../Components/AddTaskModal';
-const TasksList = () => {
-    const [openModal, setOpenModal] = useState(false);
+import { useDispatch, useSelector } from 'react-redux';
+// import tasks from '../DummyData/Tasks.json'
+import { Link } from 'react-router-dom'; 
+import { editTask } from '../Redux/Actions/TaskActions';
 
+const TasksList = () => {
+    const tasks = useSelector((state) => state.tasks);
+    const dispatch = useDispatch();
+
+    const [openModal, setOpenModal] = useState(false);
     const ShowModal = (show) => {
         setOpenModal(show);
     }
-    // const CloseModal = (close) => {
-    //     setOpenModal(close);
-    // }
-
+    // console.log(taskss);
+    
     const theme = 'light';
+
     return (
       <div className='w-full h-full flex flex-col justify-center items-center p-10 '>
         <UpperComponentTaskList ShowModal={ShowModal}/>
@@ -46,12 +51,13 @@ const TasksList = () => {
                         <td className='pl-3'>
                             <input
                                 type="checkbox"
+                                className='accent-violet-600'
                                 name={task.id} // Ensures only one radio button is selected at a time
-                                // checked={selectedTask === task.id}
-                                // onChange={() => handleTaskSelection(task.id)}
+                                checked={task.status === 'completed'}
+                                onChange={()=> dispatch(editTask({...task, status: task.status === 'completed'? 'not started': 'completed'}))}
                             />
                         </td>
-                        <td className='p-3 text-left truncate max-w-[200px] overflow-hidden whitespace-nowrap'>{task.task}</td>
+                        <td className='p-3 text-left truncate max-w-[200px] overflow-hidden whitespace-nowrap'>{task.text}</td>
                         <td className='p-3'>{task.duedate}</td>
                         <td className='p-3'>
                             <div className="flex justify-center items-center w-full">
@@ -72,6 +78,9 @@ const TasksList = () => {
                                 {task.priority}
                                 </div>
                             </div>
+                        </td>
+                        <td>
+                        <Link to={`/taskDetails/${task.id}`}>view</Link>
                         </td>
                     </tr>
                 ))
