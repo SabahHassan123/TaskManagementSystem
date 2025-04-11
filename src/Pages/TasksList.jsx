@@ -48,7 +48,7 @@ const TasksList = () => {
       };
 
     const theme = 'light';
-
+    
     return (
       <div className='w-full h-full flex flex-col justify-center items-center p-10 '>
         <UpperComponentTaskList ShowModal={ShowModal}/>
