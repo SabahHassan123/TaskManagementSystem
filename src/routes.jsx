@@ -4,6 +4,8 @@ import TasksList from "./Pages/TasksList"
 import TaskDetails from "./Pages/TaskDetails"
 import DashboardPage from "./Pages/DashboardPage"
 import HomePage from "./Pages/HomePage"
+import Register from "./Components/Register"
+import Login from "./Components/Login"
 export const routes = createBrowserRouter([
     {
         path: '/',
@@ -24,6 +26,12 @@ export const routes = createBrowserRouter([
             
         ]
     },
-    
-
+    {
+        path: '/register',
+        element: <Register />
+    },
+    {
+        path: '/login',
+        element: <Login />
+    },
 ])

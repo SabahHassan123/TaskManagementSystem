@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch } from "react-redux";
 // import { deleteTask } from "../Redux/Features/Tasks/TaskSlice";
+import { FiEdit } from "react-icons/fi";
+
 
 export const TaskDetails = ({showTaskDetails, taskDetails}) => {
     const dispatch = useDispatch();
@@ -16,12 +18,14 @@ export const TaskDetails = ({showTaskDetails, taskDetails}) => {
                     <div className='mb-16'>
                         <p className='text-5xl font-semibold'>{taskDetails.text}</p>
                     </div>
+                    
                     <div className="flex justify-start items-center w-full mb-5 gap-10">
                         <p>Status : </p>
                         <div className={`p-2 w-auto text-center rounded-lg
                         ${taskDetails.status === 'in progress' ? 'bg-orange-100 text-orange-600' : 
                         taskDetails.status === 'completed' ? 'bg-green-100 text-green-600' : 
                         'bg-gray-100 text-gray-600'}`}> {taskDetails.status}</div>
+                        <FiEdit />
                     </div>
                     <div className="flex justify-start items-center w-full mb-5 gap-10"> 
                         <p>Priority : </p>
