@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom"
 import App from "./App"
 import TasksList from "./Pages/TasksList"
 import TaskDetails from "./Pages/TaskDetails"
-
+import DashboardPage from "./Pages/DashboardPage"
+import HomePage from "./Pages/HomePage"
 export const routes = createBrowserRouter([
     {
         path: '/',
@@ -13,15 +14,16 @@ export const routes = createBrowserRouter([
                 element: <TasksList />
             },
             {
-                path: '/taskDetails/:id',
-                element: <TaskDetails />
+                path: '/dashboard',
+                element: <DashboardPage />
+            },
+            {
+                path: '/homepage',
+                element: <HomePage />
             },
             
         ]
     },
-    // {
-    //     path: '/addTasks',
-    //     element: <AddTask/>
-    // },
+    
 
 ])

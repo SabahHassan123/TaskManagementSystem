@@ -2,20 +2,51 @@ import React, { useState } from 'react'
 import { UpperComponentTaskList } from '../Components/UpperComponentTaskList';
 import { AddTaskModal } from '../Components/AddTaskModal';
 import { useDispatch, useSelector } from 'react-redux';
-// import tasks from '../DummyData/Tasks.json'
-import { Link } from 'react-router-dom'; 
-import { editTask } from '../Redux/Actions/TaskActions';
+import { editTask } from '../Redux/Features/Tasks/TaskSlice';
+import { TaskDetails } from '../Components/TaskDetails';
+
+export const formatTaskDate = (dateString) => {
+    if (!dateString) return "";
+    
+    const date = new Date(dateString);
+    const today = new Date();
+    
+    // For same-year dates
+    if (date.getFullYear() === today.getFullYear()) {
+    return date.toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'long',
+    }); 
+    }
+    
+    // For other years
+    return date.toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+    }); 
+};
 
 const TasksList = () => {
-    const tasks = useSelector((state) => state.tasks);
+    const tasks = useSelector((state) => state.tasks.tasks);
     const dispatch = useDispatch();
 
-    const [openModal, setOpenModal] = useState(false);
+    const [openAddTaskModal, setOpenAddTaskModal] = useState(false);
+    const [openTaskDetailsModal, setOpenTaskDetailsModal] = useState(false);
+    const [selectedTaskDetails, setSelectedTaskDetails] = useState({});
+
     const ShowModal = (show) => {
-        setOpenModal(show);
+        setOpenAddTaskModal(show);
     }
-    // console.log(taskss);
-    
+    const showTaskDetails = (show) => {
+        setOpenTaskDetailsModal(show);
+    }
+
+    const handleViewClick = (details) => {
+        setSelectedTaskDetails(details);
+        setOpenTaskDetailsModal(true);
+      };
+
     const theme = 'light';
 
     return (
@@ -52,13 +83,13 @@ const TasksList = () => {
                             <input
                                 type="checkbox"
                                 className='accent-violet-600'
-                                name={task.id} // Ensures only one radio button is selected at a time
+                                name={task.id}
                                 checked={task.status === 'completed'}
-                                onChange={()=> dispatch(editTask({...task, status: task.status === 'completed'? 'not started': 'completed'}))}
+                                onChange={()=> dispatch(editTask({...task, status: task.status === 'completed'? 'To-Do': 'completed'}))}
                             />
                         </td>
                         <td className='p-3 text-left truncate max-w-[200px] overflow-hidden whitespace-nowrap'>{task.text}</td>
-                        <td className='p-3'>{task.duedate}</td>
+                        <td className='p-3'>{formatTaskDate(task.dueDate)}</td>
                         <td className='p-3'>
                             <div className="flex justify-center items-center w-full">
                                 <div className={`p-1 w-3/4 text-center rounded-full
@@ -80,7 +111,7 @@ const TasksList = () => {
                             </div>
                         </td>
                         <td>
-                        <Link to={`/taskDetails/${task.id}`}>view</Link>
+                        <button onClick={() => handleViewClick(task)}>view</button>
                         </td>
                     </tr>
                 ))
@@ -89,7 +120,10 @@ const TasksList = () => {
             </table>
         </div>
         {
-            openModal && <AddTaskModal showModal={ShowModal}/>
+            openAddTaskModal && <AddTaskModal showModal={ShowModal}/>
+        }
+        {
+            openTaskDetailsModal && <TaskDetails showTaskDetails={showTaskDetails} taskDetails={selectedTaskDetails}/>
         }
       </div>
     )
