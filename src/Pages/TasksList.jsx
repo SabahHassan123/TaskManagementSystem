@@ -7,6 +7,8 @@ import { TaskDetails } from '../Components/TaskDetails';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaSearch } from 'react-icons/fa';
 import '../Components/PagesStyles.css';
+import { IoChevronBack } from "react-icons/io5";
+import { IoChevronForward } from "react-icons/io5";
 
 export const formatTaskDate = (dateString) => {
     if (!dateString) return "";
@@ -96,52 +98,57 @@ const TasksList = () => {
     const theme = 'light';
 
     return (
-      <div className='w-full h-full flex flex-col justify-center items-center p-10 '>
+      <div className='w-full h-full flex flex-col justify-center items-center p-5'>
         <div className='bg-white text-gray-800 w-11/12 rounded-xl m-5 flex justify-center items-center py-10 font-poppins border'>
             {/* Mobile View (Cards) */}
             <div className="lg:hidden space-y-4">
-            {filteredTasks.map((task) => (
-                <div key={task.id} className="p-4 border rounded-lg">
-                <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-3">
-                    <input
-                        type="checkbox"
-                        className='accent-violet-600'
-                        checked={task.status === 'Completed'}
-                        onChange={() => dispatch(editTask({...task, status: task.status === 'Completed' ? 'To-Do' : 'Completed'}))}
-                    />
-                    <span className="font-medium">{task.text}</span>
+            {currentTasks.length > 0 ? (
+                currentTasks.map((task) => 
+                    <div key={task.id} className="p-4 border rounded-lg">
+                    <div className="flex justify-between items-start">
+                        <div className="flex items-center gap-3">
+                        <input
+                            type="checkbox"
+                            className='accent-violet-600'
+                            checked={task.status === 'Completed'}
+                            onChange={() => dispatch(editTask({...task, status: task.status === 'Completed' ? 'To-Do' : 'Completed'}))}
+                        />
+                        <span className="font-medium">{task.text}</span>
+                        </div>
+                        <button onClick={() => handleViewClick(task)}>
+                        <BsThreeDotsVertical className='text-gray-400' />
+                        </button>
                     </div>
-                    <button onClick={() => handleViewClick(task)}>
-                    <BsThreeDotsVertical className='text-gray-400' />
-                    </button>
-                </div>
-                
-                <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                        <span className="text-gray-500">Due:</span> {formatTaskDate(task.dueDate)}
-                    </div>
-                    <div>
-                        <span className="text-gray-500">Status:</span>
-                        <span className={`ml-2 px-2 py-1 rounded-full text-xs 
-                            ${task.status === 'In-Progress' ? 'bg-orange-100 text-orange-600' : 
-                            task.status === 'Completed' ? 'bg-green-100 text-green-600' : 
-                            'bg-gray-100 text-gray-600'}`}>
-                            {task.status}
+                    
+                    <div className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                            <span className="text-gray-500">Due:</span> {formatTaskDate(task.dueDate)}
+                        </div>
+                        <div>
+                            <span className="text-gray-500">Status:</span>
+                            <span className={`ml-2 px-2 py-1 rounded-full text-xs 
+                                ${task.status === 'In-Progress' ? 'bg-orange-100 text-orange-600' : 
+                                task.status === 'Completed' ? 'bg-green-100 text-green-600' : 
+                                'bg-gray-100 text-gray-600'}`}>
+                                {task.status}
+                            </span>
+                        </div>
+                        <div>
+                        <span className="text-gray-500">Priority:</span>
+                        <span className={`ml-2 px-2 py-1 rounded-full text-xs
+                            ${task.priority === 'medium' ? 'bg-yellow-100 text-yellow-600' : 
+                            task.priority === 'low' ? 'bg-blue-100 text-blue-600' : 
+                            'bg-red-100 text-red-600'}`}>
+                            {task.priority}
                         </span>
+                        </div>
                     </div>
-                    <div>
-                    <span className="text-gray-500">Priority:</span>
-                    <span className={`ml-2 px-2 py-1 rounded-full text-xs
-                        ${task.priority === 'medium' ? 'bg-yellow-100 text-yellow-600' : 
-                        task.priority === 'low' ? 'bg-blue-100 text-blue-600' : 
-                        'bg-red-100 text-red-600'}`}>
-                        {task.priority}
-                    </span>
                     </div>
+            )):
+                <div className="text-center py-10 text-gray-500">
+                    No tasks found
                 </div>
-                </div>
-            ))}
+            }
             </div>
 
             {/* Desktop View (Table) */}
@@ -156,8 +163,8 @@ const TasksList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                {
-                    filteredTasks.map((task)=>(
+                {currentTasks.length > 0 ? 
+                    currentTasks.map((task) => (
                         <tr key={task.id} className='border-t-2 border-gray-50'>
                             <td className='pl-3'>
                                 <input
@@ -196,11 +203,52 @@ const TasksList = () => {
                             </button>
                             </td>
                         </tr>
-                    ))
+                    )):
+                    <div className="text-center py-10 text-gray-500">
+                        No tasks found
+                    </div>
                 }
                 </tbody>
             </table>
+
+            
         </div>
+         {/* Pagination Controls */}
+         {filteredTasks.length > tasksPerPage && (
+            <div className="flex justify-center items-center mt-6 space-x-2">
+                <button
+                    onClick={prevPage}
+                    disabled={currentPage === 1}
+                    className={`px-4 py-2 rounded-md ${currentPage === 1 ? 
+                        ' text-transparent cursor-not-allowed' : 
+                        'text-gray-500'}`}
+                >
+                    <IoChevronBack />
+                </button>
+
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(number => (
+                    <button
+                        key={number}
+                        onClick={() => paginate(number)}
+                        className={`px-4 py-2 rounded-full ${currentPage === number ? 
+                            'bg-violet-600 text-white' : 
+                            'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+                    >
+                        {/* {number} */}
+                    </button>
+                ))}
+
+                <button
+                    onClick={nextPage}
+                    disabled={currentPage === totalPages}
+                    className={`px-4 py-2 rounded-md ${currentPage === totalPages ? 
+                        'text-transparent cursor-not-allowed' : 
+                        'text-gray-500 '}`}
+                >
+                    <IoChevronForward />
+                </button>
+            </div>
+        )}
         {
             openAddTaskModal && <AddTaskModal showModal={ShowModal}/>
         }
