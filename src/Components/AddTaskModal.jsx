@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addTask } from '../Redux/Features/Tasks/TaskSlice';
 import { Input } from './Input';
 
-export const AddTaskModal = ({showModal}) => {
+export const AddTaskModal = ({showModal, status}) => {
     const dispatch = useDispatch();
     const [taskData, setTaskData] = useState({
         taskText: '',
@@ -17,7 +17,7 @@ export const AddTaskModal = ({showModal}) => {
 
         if (taskData.taskText.trim() === "") return;
 
-        dispatch(addTask({ id: Date.now(), text: taskData.taskText, description: taskData.taskDescription, priority: taskData.selectedPriority, status: 'To-Do', dueDate: taskData.selectedDueDate}));
+        dispatch(addTask({ id: Date.now(), text: taskData.taskText, description: taskData.taskDescription, priority: taskData.selectedPriority, status: status, dueDate: taskData.selectedDueDate}));
       
         showModal(false);
         
@@ -67,8 +67,8 @@ export const AddTaskModal = ({showModal}) => {
                     </textarea>
                 </div>
                 <div className=' mx-1 mt-10 flex justify-end'>
-                    <button className=' bg-white w-1/4 m-1 rounded-2xl h-10 hover:text-violet-700' onClick={()=> showModal(false)}>Cancel</button>
-                    <button type='submit' className='bg-violet-700 text-white w-1/4 m-1 rounded-2xl h-10 hover:bg-violet-600 '>Add</button>
+                    <button className=' bg-white w-1/4 m-1 rounded-2xl h-10 flex items-center justify-center hover:text-violet-700' onClick={()=> showModal(false)}>Cancel</button>
+                    <button type='submit' className='bg-violet-700 flex items-center justify-center text-white w-1/4 m-1 rounded-2xl h-10 hover:bg-violet-600 '>Add</button>
                 </div>
             </form>
         </div>

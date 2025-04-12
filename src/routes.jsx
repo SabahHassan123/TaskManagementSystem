@@ -1,30 +1,29 @@
 import { createBrowserRouter } from "react-router-dom"
 import App from "./App"
 import TasksList from "./Pages/TasksList"
-import TaskDetails from "./Pages/TaskDetails"
-import DashboardPage from "./Pages/DashboardPage"
 import HomePage from "./Pages/HomePage"
 import Register from "./Components/Register"
 import Login from "./Components/Login"
+import { Dashboard } from "./Pages/Dashboard"
 export const routes = createBrowserRouter([
     {
-        path: '/',
+        path: '/dashboard',
         element: <App />,
         children: [
             {
-                path: '/tasksList',
+                path: 'tasksList',
                 element: <TasksList />
             },
             {
-                path: '/dashboard',
-                element: <DashboardPage />
-            },
-            {
-                path: '/homepage',
-                element: <HomePage />
+                path: 'dashboardCategory',
+                element: <Dashboard />
             },
             
         ]
+    },
+    {
+        path: '/',
+        element: <HomePage />
     },
     {
         path: '/register',
