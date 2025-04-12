@@ -145,71 +145,74 @@ const TasksList = () => {
                     </div>
                     </div>
             )):
-                <div className="text-center py-10 text-gray-500">
+                <div className="text-center py-10 text-gray-500 w-full">
                     No tasks found
                 </div>
             }
             </div>
 
             {/* Desktop View (Table) */}
-            <table className="hidden lg:table w-full text-center">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th className='pb-5 text-left pl-3'>Task</th>
-                        <th className='pb-5'>Due Date</th>
-                        <th className='pb-5'>Status</th>
-                        <th className='pb-5'>Priority</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div>
                 {currentTasks.length > 0 ? 
-                    currentTasks.map((task) => (
-                        <tr key={task.id} className='border-t-2 border-gray-50'>
-                            <td className='pl-3'>
-                                <input
-                                    type="checkbox"
-                                    className='accent-violet-600'
-                                    name={task.id}
-                                    checked={task.status === 'Completed'}
-                                    onChange={()=> dispatch(editTask({id: task.id, status: task.status !== 'Completed'? 'Completed' : 'task.status'}))}
-                                />
-                            </td>
-                            <td className='p-3 text-left truncate max-w-[200px] overflow-hidden whitespace-nowrap'>{task.text}</td>
-                            <td className='p-3'>{formatTaskDate(task.dueDate)}</td>
-                            <td className='p-3'>
-                                <div className="flex justify-center items-center w-full">
-                                    <div className={`p-1 w-3/4 text-center rounded-full
-                                    ${task.status === 'In-Progress' ? 'bg-orange-100 text-orange-600' : 
-                                    task.status === 'Completed' ? 'bg-green-100 text-green-600' : 
-                                    'bg-gray-100 text-gray-600'}`}>
-                                    {task.status}
-                                    </div>
-                                </div>
-                            </td>
-                            <td className='p-3'>
-                                <div className="flex justify-center items-center w-full">
-                                    <div className={`p-1 w-3/4 text-center rounded-full
-                                    ${task.priority === 'medium' ? 'bg-yellow-100 text-yellow-600' : 
-                                    task.priority === 'low' ? 'bg-blue-100 text-blue-600' : 
-                                    'bg-red-100 text-red-600'}`}>
-                                    {task.priority}
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                            <button onClick={() => handleViewClick(task)} className='mr-4'>
-                                <BsThreeDotsVertical className='text-xl text-gray-400' />
-                            </button>
-                            </td>
+                <table className="hidden lg:table w-full text-center">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th className='pb-5 text-left pl-3'>Task</th>
+                            <th className='pb-5'>Due Date</th>
+                            <th className='pb-5'>Status</th>
+                            <th className='pb-5'>Priority</th>
                         </tr>
-                    )):
+                    </thead>
+                    <tbody>
+                        {currentTasks.map((task) => (
+                            <tr key={task.id} className='border-t-2 border-gray-50'>
+                                <td className='pl-3'>
+                                    <input
+                                        type="checkbox"
+                                        className='accent-violet-600'
+                                        name={task.id}
+                                        checked={task.status === 'Completed'}
+                                        onChange={()=> dispatch(editTask({id: task.id, status: task.status !== 'Completed'? 'Completed' : 'task.status'}))}
+                                    />
+                                </td>
+                                <td className='p-3 text-left truncate max-w-[200px] overflow-hidden whitespace-nowrap'>{task.text}</td>
+                                <td className='p-3'>{formatTaskDate(task.dueDate)}</td>
+                                <td className='p-3'>
+                                    <div className="flex justify-center items-center w-full">
+                                        <div className={`p-1 w-3/4 text-center rounded-full
+                                        ${task.status === 'In-Progress' ? 'bg-orange-100 text-orange-600' : 
+                                        task.status === 'Completed' ? 'bg-green-100 text-green-600' : 
+                                        'bg-gray-100 text-gray-600'}`}>
+                                        {task.status}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className='p-3'>
+                                    <div className="flex justify-center items-center w-full">
+                                        <div className={`p-1 w-3/4 text-center rounded-full
+                                        ${task.priority === 'medium' ? 'bg-yellow-100 text-yellow-600' : 
+                                        task.priority === 'low' ? 'bg-blue-100 text-blue-600' : 
+                                        'bg-red-100 text-red-600'}`}>
+                                        {task.priority}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                <button onClick={() => handleViewClick(task)} className='mr-4'>
+                                    <BsThreeDotsVertical className='text-xl text-gray-400' />
+                                </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                :
                     <div className="text-center py-10 text-gray-500">
                         No tasks found
                     </div>
                 }
-                </tbody>
-            </table>
+            </div>
 
             
         </div>
